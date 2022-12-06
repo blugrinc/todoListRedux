@@ -1,56 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import React, { useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { selectTodoList } from "./features/todos/todo.selectors";
+import { addTodo, deleteTodo } from "./features/todos/todo.slice";
+import "./App.css";
 
 function App() {
+  //useSelector, serve per accedere allo Store. Automaticamente riceverà lo stato dallo Store
+  //E ritornerà una fetta dello store. In questo caso todos: todoSlice
+  //Ho creato un todo.selector che richiamo
+  const todoSlice = useSelector(selectTodoList);
+  //Facciamo la Dispatch delle nostre azioni
+  const dispatch = useDispatch();
+
+  const element = useRef("");
+
+  const managerClick = () => {
+    dispatch(
+      addTodo({
+        name: element.current.value,
+        dueDate: new Date().toLocaleDateString(),
+      })
+    );
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
+      <h1>MY TO DO LIST</h1>
+      <form>
+        <div>
+          <input ref={element} />
+          <button onClick={managerClick}>Add</button>
+        </div>
+      </form>
+      <ul>
+        {todoSlice.map((todo) => (
+          <li key={todo.name}>
+            {todo.name}
+            <button onClick={() => dispatch(deleteTodo(todo))}> Delete </button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
