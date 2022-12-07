@@ -1,14 +1,12 @@
 import React, { useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectTodoList } from "./features/todos/todo.selectors";
-import { addTodo, deleteTodo } from "./features/todos/todo.slice";
+import { addTodo } from "./features/todos/todo.slice";
+import Todos from "./components/Todos";
 import "./App.css";
 
 function App() {
-  //useSelector, serve per accedere allo Store. Automaticamente riceverà lo stato dallo Store
-  //E ritornerà una fetta dello store. In questo caso todos: todoSlice
-  //Ho creato un todo.selector che richiamo
-  const todoSlice = useSelector(selectTodoList);
+  const todoList = useSelector(selectTodoList);
   //Facciamo la Dispatch delle nostre azioni
   const dispatch = useDispatch();
 
@@ -17,6 +15,7 @@ function App() {
   const managerClick = () => {
     dispatch(
       addTodo({
+        id: todoList.length + 1,
         name: element.current.value,
         dueDate: new Date().toLocaleDateString(),
       })
@@ -29,17 +28,11 @@ function App() {
       <form>
         <div>
           <input ref={element} />
-          <button onClick={managerClick}>Add</button>
         </div>
       </form>
-      <ul>
-        {todoSlice.map((todo) => (
-          <li key={todo.name}>
-            {todo.name}
-            <button onClick={() => dispatch(deleteTodo(todo))}> Delete </button>
-          </li>
-        ))}
-      </ul>
+      <button onClick={managerClick}>Add</button>
+
+      <Todos />
     </div>
   );
 }

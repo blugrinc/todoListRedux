@@ -3,8 +3,10 @@ import { createSlice } from "@reduxjs/toolkit";
 export const initialState = {
   todosList: [
     {
+      id: 1,
       name: "Chiama mamma",
       dueDate: new Date().toLocaleDateString(),
+      completed: false,
     },
   ],
 };
@@ -17,17 +19,28 @@ export const todoSlice = createSlice({
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
     //creiamo azioni e reducer contemporanemanete
-    //Facndo il disaptch di addTodo avreo un oggetto tipo: {type: 'todos/addTodo", payload:}
+    //Facndo il disaptch di addTodo avreo un oggetto {type: 'todos/addTodo", payload:}
     addTodo: (state, action) => {
-      state.push(action.payload);
-      /* state.todosList = [...state.todosList, action.payload]; */
+      /* state.push(action.payload); */
+      state.todosList = [...state.todosList, action.payload];
     },
     deleteTodo: (state, action) => {
-      return state.filter((todo) => todo.name !== action.payload);
+      /*  return state.filter((todo) => todo.name !== action.payload); */
+      state.todosList = state.todosList.filter(
+        (todo) => todo.id !== action.payload.id
+      );
+    },
+    toggleTodo: (state, action) => {
+      state.todosList = state.todosList.map((todo) => {
+        if (todo.id === action.payload.id) {
+          todo.completed = !todo.completed;
+        }
+        return todo;
+      });
     },
   },
 });
 
-export const { addTodo, deleteTodo } = todoSlice.actions;
+export const { addTodo, deleteTodo, toggleTodo } = todoSlice.actions;
 
 export default todoSlice.reducer;
