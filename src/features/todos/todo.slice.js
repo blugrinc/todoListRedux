@@ -6,7 +6,19 @@ export const initialState = {
       id: 1,
       name: "Chiama mamma",
       dueDate: new Date().toLocaleDateString(),
-      completed: false,
+      stateTodo: "",
+    },
+    {
+      id: 2,
+      name: "Chiama papà",
+      dueDate: new Date().toLocaleDateString(),
+      stateTodo: "PROGRESS",
+    },
+    {
+      id: 3,
+      name: "Chiama Luigi",
+      dueDate: new Date().toLocaleDateString(),
+      stateTodo: "COMPLETED",
     },
   ],
 };
@@ -23,7 +35,6 @@ export const todoSlice = createSlice({
     addTodo: (state, action) => {
       /* state.push(action.payload); */
       state.todosList = [...state.todosList, action.payload];
-      console.log(action.payload);
     },
     deleteTodo: (state, action) => {
       /*  return state.filter((todo) => todo.name !== action.payload); */
@@ -31,14 +42,11 @@ export const todoSlice = createSlice({
         (todo) => todo.id !== action.payload.id
       );
     },
-    toggleTodo: (state, action) => {
-      state.todosList = state.todosList.map((todo) => {
-        if (todo.id === action.payload.id) {
-          todo.completed = !todo.completed;
-        }
-        return todo;
+    /* toggleTodo: (state, action) => {
+      state.todosList = state.todosList.map((elementState) => {
+        
       });
-    },
+    }, */
   },
 });
 

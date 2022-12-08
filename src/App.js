@@ -1,7 +1,7 @@
 import React from "react";
 import ToDoList from "./components/ToDoList";
-import "./App.css";
 import FormAddTodo from "./components/FormAddTodo";
+import "./App.css";
 
 function App() {
   return (

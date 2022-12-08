@@ -6,29 +6,24 @@ import { addTodo } from "../features/todos/todo.slice";
 
 export default function FormAddTodo() {
   const todoList = useSelector(selectTodoList);
+  const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
 
-  const dispatch = useDispatch();
-  /* const element = useRef(""); */
-
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = ({ todo }) => {
     dispatch(
       addTodo({
         id: todoList.length + 1,
-        name: ??????????? ,
+        todo,
         dueDate: new Date().toLocaleDateString(),
+        stateTodo: "",
       })
     );
-    console.log(data);
-  });
+  };
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div>
-        <input        
-          {...register("name")}
-          placeholder="write here"
-        ></input>
+        <input {...register("todo")}></input>
         <input type="submit"></input>
       </div>
     </form>
