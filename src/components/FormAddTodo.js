@@ -12,7 +12,7 @@ export default function FormAddTodo() {
   const onSubmit = ({ name }) => {
     dispatch(
       addTodo({
-        id: todoList.length + 1,
+        id: name,
         name,
         dueDate: new Date().toLocaleDateString(),
         stateTodo: todosType.TO_DO,

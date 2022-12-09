@@ -1,9 +1,5 @@
 import { useSelector } from "react-redux";
-import {
-  selectTodoList,
-  selectDone,
-  selectInProgress,
-} from "../features/todos/todo.selectors";
+import { selectTodoList } from "../features/todos/todo.selectors";
 import { initialState } from "../features/todos/todo.slice";
 import { todosType } from "../utils/constants";
 import Todo from "./Todo";
@@ -14,19 +10,18 @@ const ToDoList = () => {
   //Ho creato un todo.selector che richiamo
 
   const todoList = useSelector(selectTodoList);
-  const todoListInProgress = useSelector(selectInProgress); //come funziona? RIVEDERE
 
   return (
     <div>
       <div>
         <ul>
-          {todoList.map((todo) => (
+          {todoList[todosType.TO_DO].map((todo) => (
             <Todo key={todo.name} todo={todo} />
           ))}
         </ul>
       </div>
 
-      <div>
+      {/* <div>
         <h3>IN_PROGRSS </h3>
         <ul>
           {todoListInProgress.map((todo) => (
@@ -42,7 +37,7 @@ const ToDoList = () => {
             <Todo key={todo.id} todo={todo} />
           ))}
         </ul>
-      </div>
+      </div> */}
     </div>
   );
 };

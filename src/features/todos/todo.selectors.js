@@ -9,13 +9,3 @@ export const selectTodoList = createSelector(
   [selectDomainList],
   (todos) => todos.todosList
 );
-
-export const selectDone = createSelector(
-  [selectDomainList],
-  (todos) => todos.done
-);
-
-export const selectInProgress = createSelector(
-  [selectDomainList],
-  (todos) => todos.inProgress
-);

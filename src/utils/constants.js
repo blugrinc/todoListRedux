@@ -1,18 +1,21 @@
 //ENUM
 export const todosType = {
-  TO_DO: "todosList",
+  TO_DO: "toDo",
   DONE: "done",
   IN_PROGRESS: "inProgress",
 };
 
-/* 
-
-  todos[todosType.DONE]
+/* todos[todosType.DONE]
   todos["done"]
   todos.done
   console.log(todos.done)
 
-   
+     //initialState
+  const todos = {
+    done: [{}],
+    inProgress: [{}],
+    toDo: [{}]
+  };
 
   addTodo: (state, action) => {
     /* state.push(action.payload); */
@@ -52,4 +55,5 @@ const updateListOfToDo = (IdtoDoToUpdate, todoStatus) => {
       }
       return todo;
     });
-  }); */
+  }); 
+ */
