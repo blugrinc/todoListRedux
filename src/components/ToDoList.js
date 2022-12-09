@@ -1,40 +1,49 @@
 import { useSelector } from "react-redux";
-import { selectTodoList } from "../features/todos/todo.selectors";
-import { FilterTodoCompleted, FilterTodoProgress } from "./FilterTodo";
+import {
+  selectTodoList,
+  selectDone,
+  selectInProgress,
+} from "../features/todos/todo.selectors";
+import { initialState } from "../features/todos/todo.slice";
+import { todosType } from "../utils/constants";
 import Todo from "./Todo";
 
-const Todos = ({ todos }) => {
+const ToDoList = () => {
   //useSelector, serve per accedere allo Store. Automaticamente riceverà lo stato dallo Store
   //E ritornerà una fetta dello store. In questo caso todos: todoSlice
   //Ho creato un todo.selector che richiamo
+
   const todoList = useSelector(selectTodoList);
+  const todoListInProgress = useSelector(selectInProgress); //come funziona? RIVEDERE
 
   return (
     <div>
       <div>
         <ul>
           {todoList.map((todo) => (
+            <Todo key={todo.name} todo={todo} />
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <h3>IN_PROGRSS </h3>
+        <ul>
+          {todoListInProgress.map((todo) => (
             <Todo key={todo.id} todo={todo} />
           ))}
         </ul>
       </div>
+
       <div>
-        <h3>Iniziati </h3>
+        <h3>DONE</h3>
         <ul>
-          {todoList.map((todo) => (
-            <FilterTodoProgress key={todo.id} todo={todo} />
-          ))}
-        </ul>
-      </div>
-      <div>
-        <h3>Completati</h3>
-        <ul>
-          {todoList.map((todo) => (
-            <FilterTodoCompleted key={todo.id} todo={todo} />
+          {initialState[todosType.DONE].map((todo) => (
+            <Todo key={todo.id} todo={todo} />
           ))}
         </ul>
       </div>
     </div>
   );
 };
-export default Todos;
+export default ToDoList;

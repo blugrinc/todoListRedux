@@ -1,28 +1,32 @@
 import { useDispatch } from "react-redux";
-import { deleteTodo } from "../features/todos/todo.slice";
-import { filterTodo } from "../features/todos/filter.slice";
-import { filterTodoList } from "../features/todos/todo.selectors";
+import { deleteTodo, updateStateTodo } from "../features/todos/todo.slice";
+import { todosType } from "../utils/constants";
 
-export function ButtonDropDown() {
+export function ButtonDropDown({ todo }) {
   const dispatch = useDispatch();
 
-  /* const onToggleTodo = (elementState) => {
-    dispatch(toggleTodo(elementState));
-  };
- */
-
-  const onFilter = (elementState) => {
-    dispatch(filterTodo(elementState));
+  const updateState = (actualState, newState) => {
+    const newTodo = {
+      ...todo,
+      actualState: newState,
+    };
+    dispatch(updateStateTodo(newTodo));
   };
 
   return (
-    <button>
-      <button onClick={() => onFilter("")}>1</button>
+    <div>
+      <button onClick={() => updateState((todo.stateTodo, todosType.TO_DO))}>
+        1
+      </button>
 
-      <button onClick={() => onFilter("PROGRESS")}>2</button>
+      <button
+        onClick={() => updateState(todo.stateTodo, todosType.IN_PROGRESS)}
+      >
+        2
+      </button>
 
-      <button onClick={() => onFilter("COMPLETED")}>3 </button>
-    </button>
+      <button onClick={() => updateState(todosType.DONE)}>3</button>
+    </div>
   );
 }
 

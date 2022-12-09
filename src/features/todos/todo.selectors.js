@@ -10,10 +10,12 @@ export const selectTodoList = createSelector(
   (todos) => todos.todosList
 );
 
-const selectDomainFilter = (state) => state.filter || initialState;
+export const selectDone = createSelector(
+  [selectDomainList],
+  (todos) => todos.done
+);
 
-//Qui decidiamo che cosa ritornare e facciamo il Dispatch delle Azioni
-export const filterTodoList = createSelector(
-  [selectDomainFilter],
-  (todos) => todos.todosList
+export const selectInProgress = createSelector(
+  [selectDomainList],
+  (todos) => todos.inProgress
 );

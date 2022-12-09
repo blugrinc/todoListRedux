@@ -1,21 +1,21 @@
 import { useForm } from "react-hook-form";
-import { useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectTodoList } from "../features/todos/todo.selectors";
 import { addTodo } from "../features/todos/todo.slice";
+import { todosType } from "../utils/constants";
 
 export default function FormAddTodo() {
   const todoList = useSelector(selectTodoList);
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
 
-  const onSubmit = ({ todo }) => {
+  const onSubmit = ({ name }) => {
     dispatch(
       addTodo({
         id: todoList.length + 1,
-        todo,
+        name,
         dueDate: new Date().toLocaleDateString(),
-        stateTodo: "",
+        stateTodo: todosType.TO_DO,
       })
     );
   };
@@ -23,7 +23,7 @@ export default function FormAddTodo() {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div>
-        <input {...register("todo")}></input>
+        <input {...register("name")}></input>
         <input type="submit"></input>
       </div>
     </form>
