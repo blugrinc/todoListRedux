@@ -3,34 +3,38 @@ import { deleteTodo, updateStateTodo } from "../features/todos/todo.slice";
 import { selectTodoList } from "../features/todos/todo.selectors";
 import { todosType } from "../utils/constants";
 
+//BUTTON  STATE
 export function ButtonDropDown({ todo }) {
   const dispatch = useDispatch();
   const todoList = useSelector(selectTodoList); //oggetto
 
   const updateState = ({ id, state, newState }) => {
-    let updatedTodo = todoList[state]
+    const updatedState = todoList[state]
+      .filter((todo) => todo.id === id) //FIX!
       .map((todo) => {
         if (todo.id === id) {
           return {
+            //elementi undefined
             ...todo,
             stateTodo: newState,
           };
         }
-      })
-      .filter((todo) => {
-        if (todo.id === id) {
-          return {
-            ...todo,
-          };
-        }
-      })[0];
+      });
+
+    const deleteTodoFromPreviousState = todoList[state].filter(
+      (todo) => todo.id !== id
+    );
 
     const list = {
       ...todoList,
-      [newState]: [updatedTodo],
+      [state]: [...deleteTodoFromPreviousState],
+      [newState]: [
+        ...todoList[newState],
+        ...updatedState.filter((todo) => todo !== undefined),
+      ],
     };
-    console.log(list);
-    /*  dispatch(updateStateTodo(list)); */
+
+    dispatch(updateStateTodo(list));
   };
 
   return (
@@ -79,6 +83,7 @@ export function ButtonDropDown({ todo }) {
   );
 }
 
+//BUTTON DELETE
 export function ButtonDelete({ todo }) {
   const dispatch = useDispatch();
 

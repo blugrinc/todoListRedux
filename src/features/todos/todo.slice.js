@@ -1,12 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { todosType } from "../../utils/constants";
 
-/* export const initialState = {
-  todosList: [{}],
-  inProgress: [{}],
-  done: [{}],
-}; */
-
 export const initialState = {
   todosList: {
     [todosType.TO_DO]: [],
@@ -33,14 +27,12 @@ export const todoSlice = createSlice({
     },
     deleteTodo: (state, action) => {
       const typeOfTodo = action.payload.stateTodo;
-      state[typeOfTodo] = state[typeOfTodo].filter(
+      state.todosList[typeOfTodo] = state.todosList[typeOfTodo].filter(
         (todo) => todo.id !== action.payload.id
       );
     },
     updateStateTodo: (state, action) => {
-      //Prendo todo
-      //lo aggiorno con il nuovo stateTodo, preso in input dal pulsante
-      //ritorno il todo, con il nuovo sato e lo colloco nell'array corretto.
+      state.todosList = action.payload;
     },
   },
 });

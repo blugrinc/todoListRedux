@@ -16,15 +16,15 @@ const ToDoList = () => {
       <div>
         <ul>
           {todoList[todosType.TO_DO].map((todo) => (
-            <Todo key={todo.name} todo={todo} />
+            <Todo key={todo.id} todo={todo} />
           ))}
         </ul>
       </div>
 
-      {/* <div>
+      <div>
         <h3>IN_PROGRSS </h3>
         <ul>
-          {todoListInProgress.map((todo) => (
+          {todoList[todosType.IN_PROGRESS].map((todo) => (
             <Todo key={todo.id} todo={todo} />
           ))}
         </ul>
@@ -33,11 +33,11 @@ const ToDoList = () => {
       <div>
         <h3>DONE</h3>
         <ul>
-          {initialState[todosType.DONE].map((todo) => (
+          {todoList[todosType.DONE].map((todo) => (
             <Todo key={todo.id} todo={todo} />
           ))}
         </ul>
-      </div> */}
+      </div>
     </div>
   );
 };
