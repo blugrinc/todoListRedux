@@ -19,6 +19,7 @@ export function ButtonDropDown({ todo }) {
             stateTodo: newState,
           };
         }
+        return todo;
       });
 
     const deleteTodoFromPreviousState = todoList[state].filter(

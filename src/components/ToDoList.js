@@ -1,6 +1,5 @@
 import { useSelector } from "react-redux";
 import { selectTodoList } from "../features/todos/todo.selectors";
-import { initialState } from "../features/todos/todo.slice";
 import { todosType } from "../utils/constants";
 import Todo from "./Todo";
 

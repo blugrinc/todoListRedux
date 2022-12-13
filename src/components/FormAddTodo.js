@@ -17,7 +17,7 @@ export default function FormAddTodo() {
       ...todoList[todosType.DONE],
     ];
 
-    if (allTodo.find((todo) => todo.name === name) == undefined) {
+    if (allTodo.find((todo) => todo.name === name) === undefined) {
       dispatch(
         addTodo({
           id: name,
