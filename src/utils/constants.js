@@ -5,55 +5,25 @@ export const todosType = {
   IN_PROGRESS: "inProgress",
 };
 
-/* todos[todosType.DONE]
-  todos["done"]
-  todos.done
-  console.log(todos.done)
+//MEDIA QUERIS
+const size = {
+  mobileS: "300px",
+  mobileM: "400px",
+  mobileL: "500px",
 
-     //initialState
-  const todos = {
-    done: [{}],
-    inProgress: [{}],
-    toDo: [{}]
-  };
-
-  addTodo: (state, action) => {
-    /* state.push(action.payload); */
-/* const todToAdd = action.payload;
-    const typeOfTodo = action.payload.stateTodo
-    state.todos[typeOfTodo] = [...state.todos[typeOfTodo], todToAdd]
-  },
-    
- 
-const component = () => {
-    return (
-      <>
-        <ul>
-          {todos[todosType.DONE].map((todo) => (
-            <li>
-              {todo}
-              <button onClick={updateListOfToDo(todo.id, todo.status)}>update on progress</button>
-            </li>
-          ))}
-        </ul>
-            <ul>
-          {todos[todosType.IN_PROGRESS].map((todo) => ())}
-            </ul>
-            <ul>
-          {todos[todosType.TO_DO].map((todo) => ())}
-            </ul>
-      </>)
+  tablet: "768px",
+  laptop: "1024px",
+  laptopL: "1440px",
+  desktop: "2560px",
 };
-  
-const updateListOfToDo = (IdtoDoToUpdate, todoStatus) => {
-    const newToDoList = todos[todoStatus].map((todo) => {
-      if (todo.id === IdtoDoToUpdate) {
-        return {
-          ...todo,
-          stateTodo: todosType.IN_PROGRESS,
-        };
-      }
-      return todo;
-    });
-  }); 
- */
+
+export const device = {
+  mobileS: `(min-width: ${size.mobileS})`,
+  mobileM: `(min-width: ${size.mobileM})`,
+  mobileL: `(min-width: ${size.mobileL})`,
+  tablet: `(min-width: ${size.tablet})`,
+  laptop: `(min-width: ${size.laptop})`,
+  laptopL: `(min-width: ${size.laptopL})`,
+  desktop: `(min-width: ${size.desktop})`,
+  desktopL: `(min-width: ${size.desktop})`,
+};
