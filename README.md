@@ -1,4 +1,5 @@
 # React_App with Redux Toolkit
+
 #### Installation 
 ```
 npm install
@@ -16,7 +17,7 @@ To-do list divided into completed, started and to-do. App is structured to pract
 
 - [Object structure](#ObjectStructure)
 - [FormAddTodo](#FormAddTodo)
-- [Button](##Button)
+- [Button](#Button)
 
 
 ## ObjectStructure
