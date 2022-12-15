@@ -80,7 +80,7 @@ In the button component we find the updateState function. This function allows t
 ```
 const updateState = ({ id, state, newState }) => {
     const updatedState = todoList[state]
-      .filter((todo) => todo.id === id) //FIX!
+      .filter((todo) => todo.id === id)
       .map((todo) => {
         if (todo.id === id) {
           return {
