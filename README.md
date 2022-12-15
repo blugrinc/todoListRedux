@@ -1,46 +1,109 @@
-# Getting Started with Create React App and Redux
+# React_App with Redux Toolkit
+#### Installation 
+```
+npm install
+npx create-react-app my-app --template redux
+npm install --save styled-components
+npm install react-hook-form
+```
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+## Todo List
+To-do list divided into completed, started and to-do. App is structured to practise the Redux features (Store, slice, selector).  
 
-## Available Scripts
+![alt text](https://github.com/blugrinc/todoListRedux/blob/master/public/TodoList.png?raw=true)
 
-In the project directory, you can run:
+## Main Features
 
-### `npm start`
+- [Object structure](#ObjectStructure)
+- [FormAddTodo](#FormAddTodo)
+- [Button](##Button)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## ObjectStructure
+path: src/features/todos/todo.slice.js 
 
-### `npm test`
+TThe app is based on an object composed of arrays. Each array will contain the respective todo with the referenced state. 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+export const initialState = {
+  todosList: {
+    [todosType.TO_DO]: [],
+    [todosType.IN_PROGRESS]: [],
+    [todosType.DONE]: [],
+  },
+};
 
-### `npm run build`
+```
+The name of the array is handled by an ENUM, depending on the status of the selected 'todo' it will automatically move to the reference array. 
+```
+export const todosType = {
+  TO_DO: "toDo",
+  DONE: "done",
+  IN_PROGRESS: "inProgress",
+};
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## FormAddTodo
+The main function to add the todo makes use of 'React Hook Form' hooks.  Initially, a check is made to see whether the 'todo' is already present within the arrays. If the element is undefined, a 'disaptch' is performed and the object (todo) is sent to the store.  
+```
+ const dispatch = useDispatch();
+  const todoList = useSelector(selectTodoList);
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+  const { register, handleSubmit, reset } = useForm()
+ const onSubmit = ({ name }) => {
+    const allTodo = [
+      ...todoList[todosType.TO_DO],
+      ...todoList[todosType.IN_PROGRESS],
+      ...todoList[todosType.DONE],
+    ];
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    if (allTodo.find((todo) => todo.name === name) === undefined) {
+      dispatch(
+        addTodo({
+          id: name,
+          name: name.toUpperCase(),
+          dueDate: new Date().toLocaleDateString(),
+          stateTodo: todosType.TO_DO,
+        })
+      );
 
-### `npm run eject`
+      reset(); //clear form after submit
+    } else {
+      alert("Todo already present");
+    }
+  };
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Button
+In the button component we find the updateState function. This function allows the state of the individual todo to be changed. Once it has been changed, it is inserted into the new reference array and deleted from the original array.
+```
+const updateState = ({ id, state, newState }) => {
+    const updatedState = todoList[state]
+      .filter((todo) => todo.id === id) //FIX!
+      .map((todo) => {
+        if (todo.id === id) {
+          return {
+            //elementi undefined
+            ...todo,
+            stateTodo: newState,
+          };
+        }
+        return todo;
+      });
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+    const deleteTodoFromPreviousState = todoList[state].filter(
+      (todo) => todo.id !== id
+    );
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+    const list = {
+      ...todoList,
+      [state]: [...deleteTodoFromPreviousState],
+      [newState]: [
+        ...todoList[newState],
+        ...updatedState.filter((todo) => todo !== undefined),
+      ],
+    };
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+    dispatch(updateStateTodo(list));
+  };
+  ```
